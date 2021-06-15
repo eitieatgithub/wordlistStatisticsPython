@@ -1,7 +1,7 @@
 """
 # MIT License
 
-# Copyright (c) 2021 chrisX220
+# Copyright (c) 2021 eitieatgithub
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 # SOFTWARE.
 """
 """
-author: chrisX220
+author: eitieatgithub
 
 Count type of characters in line-arranged textfiles and visualize results. Using Python.
 Note: Some characters may not be interpreted and / or misinterpreted and / or miscounted (e.g. due to file encoding)
@@ -92,6 +92,8 @@ plt.bar(x, y, label="ocurrance", color="orange")
 plt.legend(loc='best')
 plt.ylabel("number of characters occured")
 plt.xlabel("character")
+#plt.text(35, 5.5, "eitieatgithub, \n see license", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+plt.annotate(" Copyright (c) 2021 eitieatgithub,\n https://github.com/eitieatgithub/wordlistStatisticsPython, \n note license", xy=(0.42, 0.9), xycoords='axes fraction')
 plt.savefig("occurance_of_characters.pdf")
 plt.show()
 
