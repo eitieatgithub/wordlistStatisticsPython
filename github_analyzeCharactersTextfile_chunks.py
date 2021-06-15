@@ -48,7 +48,7 @@ def check_freq(x):
 ## # Counted characters: result is depending on chunk size, assumption: only last chunk is analyzed or added to results
  
 ## B-Error: 
-## Chunk-Size is not caring about line ending / word ending. Therefore characters may be "cut" and counted wrong.
+## Assumption: Chunk-Size is not caring about line ending / word ending. Therefore characters may be "cut" and counted wrong. Check this!
 ## Stastically this effect should be less with bigger chunk sizes: the bigger chunk size, the less characters "cut"
 ## WORKAROUND: write function to read linewise / wordwise -> no charachters "cut".
 ## number of words is no longer depending on newline character \n.  Allows better estimation of number of words and wordlength, too.
