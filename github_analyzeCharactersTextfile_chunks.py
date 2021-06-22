@@ -22,19 +22,19 @@
 # SOFTWARE.
 """
 """
-author: eitieatgithub
+## PROGRAM ##
+name:         COUNT_CHARS 2.0
+description:  Count type of characters in line-arranged textfiles and visualize results. Using Python.
+version:      2.0 - Program is able to handle files bigger than system memory (random access memory). Therefore chunk size has to been set properly.
+author:       eitieatgithub
 
-Count type of characters in line-arranged textfiles and visualize results. Using Python.
-Note: Some characters may not be interpreted and / or misinterpreted and / or miscounted (e.g. due to file encoding)
+note:         Some characters may not be interpreted and / or misinterpreted and / or miscounted (e.g. due to file encoding)
 """
-
-## ## Use Parallel Threaads
-## WORKAROUND: Ensure Program can count characters in parallel threads
 
 ## ## Definitions
 
 import matplotlib.pyplot as plt
-
+import collections
 
 def check_freq(x):
     freq = {}
@@ -42,17 +42,7 @@ def check_freq(x):
         freq[c] = x.count(c)
     return freq
 
-## ## ERRORS:
-
-## A-Error:
-## # Counted characters: result is depending on chunk size, assumption: only last chunk is analyzed or added to results
- 
-## B-Error: 
-## Assumption: Chunk-Size is not caring about line ending / word ending. Therefore characters may be "cut" and counted wrong. Check this!
-## Stastically this effect should be less with bigger chunk sizes: the bigger chunk size, the less characters "cut"
-## WORKAROUND: write function to read linewise / wordwise -> no charachters "cut".
-## number of words is no longer depending on newline character \n.  Allows better estimation of number of words and wordlength, too.
-def read_in_chunks(chunk, chunk_size):
+def read_in_chunks(chunk, chunk_size):  ## ## ##https://stackoverflow.com/questions/519633/lazy-method-for-reading-big-file-in-python
     """Lazy function (generator) to read a file piece by piece.
     Default chunk size: 1k."""
     while True:
@@ -62,41 +52,45 @@ def read_in_chunks(chunk, chunk_size):
         yield data
 
 
-
 ## ## Data-input file to be used. Note file needs.
 name_of_datafile = "testfile.txt"
-name_of_datafile = "testfile2.txt"
+## ## Set chunk size in byte, must smaller than available system memory with some threshold
+## 1000 equals roughly one Kilobyte, 1000000 equals roughly one Megabyte, 1000000000 equals roughly one Gigabyte
+size_of_chunk = 10
 
-## ## Set chunk size, must smaller than available system memory with some threshold
-## 1000000000 equals 1 Gigabyte
-#size_of_chunk = 1000
 
-## ## how big is file / how big are chunks
-## how many chunks will be needed
-## chunk counter: print out number of chunk processed currently
-
-chunk_size = 6
+chunk_size = size_of_chunk
 chunk_counter = 0
 number_of_characters_total = 0
-print("number_of_characters_total", number_of_characters_total)
 number_of_chunks_processed = 0
-number_of_type_char = {} ## ## initialize empty dictionary
+number_of_type_char = collections.Counter()
+number_of_type_char_temp = collections.Counter()
+collection_so_far = collections.Counter()
 with open(name_of_datafile) as f:
     for piece in read_in_chunks(f, chunk_size):
         chunk_counter = chunk_counter + 1
-        print("chunk {} is in progress".format(chunk_counter))
         ## ## get information about length of data
+        ## may becomes obsolete with knowledge of chunk size, except for the last chunk: can be smaller than chunk size (file end no more data).
+        ## still here for checking purposes:
+        ## datafile size should be equal to chunk_size * (number of chunks -1) + number of characters of last chunk 
+        ## may causes some performance drawback
         number_of_characters_chunk = len(piece)
         number_of_characters_total = number_of_characters_total + number_of_characters_chunk
-        print("number_of_characters_chunk", number_of_characters_chunk)
+        print("chunk {} is in progress, chunk_size set: {}, number of characters counted in chunk: {}".format(chunk_counter, chunk_size, number_of_characters_chunk))
         number_of_chunks_processed = number_of_chunks_processed + 1
         ## ## Count character types in certain chunk
-        check_freq_count = check_freq(piece)
-        ## Update dictionary with results of last piece
-        #number_of_type_char = number_of_type_char + check_freq_count
-        number_of_type_char.update(check_freq_count)
+        collection_new = check_freq(piece)
+        ## convert to collections.Counter
+        collection_new = collections.Counter(collection_new)
+        ## add new values already existing values
+        collection_so_far = collection_so_far + collection_new
         print("\n", )
-        
+
+## ## convert collections.Counter into dicitonary 
+number_of_type_char = dict(collection_so_far) 
+
+## ## close datafile
+f.close()
 
 print("\n", )
 print("number_of_chunks_processed", number_of_chunks_processed)
@@ -122,8 +116,7 @@ for i in number_of_type_char_sorted:
 	print(i[0], i[1])
 print("\n", )
 
-## print out sorted dictionary
-#print("check_freq_count_sorted:\n", check_freq_count_sorted)
+print("number_of_type_char_sorted \n", number_of_type_char_sorted)
 
 ## Convert data from pairs to lists by using zip function (for plotting)
 x, y = zip(*number_of_type_char_sorted)
@@ -139,7 +132,7 @@ plt.legend(loc='best')
 plt.ylabel("number of characters occured")
 plt.xlabel("character")
 plt.annotate(" Copyright (c) 2021 eitieatgithub,\n https://github.com/eitieatgithub/wordlistStatisticsPython, \n note license", xy=(0.42, 0.9), xycoords='axes fraction')
-plt.savefig("occurance_of_characters.pdf")
+plt.savefig("occurance_of_characters_chunks10.pdf")
 plt.show()
 
 print("\n", )
