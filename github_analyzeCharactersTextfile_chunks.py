@@ -31,10 +31,12 @@ author:       eitieatgithub
 note:         Some characters may not be interpreted and / or misinterpreted and / or miscounted (e.g. due to file encoding)
 """
 
-## ## Definitions
-
 import matplotlib.pyplot as plt
 import collections
+import time
+
+
+## ## Definitions
 
 def check_freq(x):
     freq = {}
@@ -56,8 +58,15 @@ def read_in_chunks(chunk, chunk_size):  ## ## ##https://stackoverflow.com/questi
 name_of_datafile = "testfile.txt"
 ## ## Set chunk size in byte, must smaller than available system memory with some threshold
 ## 1000 equals roughly one Kilobyte, 1000000 equals roughly one Megabyte, 1000000000 equals roughly one Gigabyte
+#size_of_chunk = 1000000000
+#size_of_chunk = 5000000
+#size_of_chunk = 1000000
+#size_of_chunk = 1000
 size_of_chunk = 10
+#size_of_chunk = 1
 
+## ## get timestamp start
+start_time = time.time()
 
 chunk_size = size_of_chunk
 chunk_counter = 0
@@ -89,9 +98,6 @@ with open(name_of_datafile) as f:
 ## ## convert collections.Counter into dicitonary 
 number_of_type_char = dict(collection_so_far) 
 
-## ## close datafile
-f.close()
-
 print("\n", )
 print("number_of_chunks_processed", number_of_chunks_processed)
 print("number_of_characters_total", number_of_characters_total)
@@ -122,7 +128,6 @@ print("number_of_type_char_sorted \n", number_of_type_char_sorted)
 x, y = zip(*number_of_type_char_sorted)
 print("\n", )
 
-
 ## ## plot graph
 plt.figure(dpi=600)
 plt.figure(figsize=(35,10))
@@ -134,5 +139,9 @@ plt.xlabel("character")
 plt.annotate(" Copyright (c) 2021 eitieatgithub,\n https://github.com/eitieatgithub/wordlistStatisticsPython, \n note license", xy=(0.42, 0.9), xycoords='axes fraction')
 plt.savefig("occurance_of_characters_chunks10.pdf")
 plt.show()
+
+## get runtime
+runtime =  (time.time() - start_time)
+print(" %s seconds ", runtime)
 
 print("\n", )
