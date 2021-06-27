@@ -140,12 +140,8 @@ plt.annotate(" Copyright (c) 2021 eitieatgithub,\n https://github.com/eitieatgit
 plt.savefig("occurance_of_characters_chunks10.pdf")
 plt.show()
 
-<<<<<<< HEAD
 ## get runtime
 runtime =  (time.time() - start_time)
 print(" %s seconds ", runtime)
 
 print("\n", )
-=======
-print("\n", )
->>>>>>> c38a825d46587cbd1d941733fb26d03cb2a27a90
