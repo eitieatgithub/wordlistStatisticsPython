@@ -46,7 +46,7 @@ def check_freq(x):
 
 def read_in_chunks(chunk, chunk_size):  ## ## ##https://stackoverflow.com/questions/519633/lazy-method-for-reading-big-file-in-python
     """Lazy function (generator) to read a file piece by piece.
-    Default chunk size: 1k."""
+    Default chunk size: 1k.""" ##https://stackoverflow.com/questions/519633/lazy-method-for-reading-big-file-in-python
     while True:
         data = chunk.read(chunk_size)
         if not data:
@@ -140,8 +140,12 @@ plt.annotate(" Copyright (c) 2021 eitieatgithub,\n https://github.com/eitieatgit
 plt.savefig("occurance_of_characters_chunks10.pdf")
 plt.show()
 
+<<<<<<< HEAD
 ## get runtime
 runtime =  (time.time() - start_time)
 print(" %s seconds ", runtime)
 
 print("\n", )
+=======
+print("\n", )
+>>>>>>> c38a825d46587cbd1d941733fb26d03cb2a27a90
