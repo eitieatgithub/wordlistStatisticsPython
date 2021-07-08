@@ -10,7 +10,7 @@
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
-#The above copyright notice and this permission notice shall be included in all
+# The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -34,7 +34,7 @@ note:         Some characters may not be interpreted and / or misinterpreted and
 import matplotlib.pyplot as plt
 import collections
 import time
-
+import json
 
 ## ## Definitions
 
@@ -140,8 +140,17 @@ plt.annotate(" Copyright (c) 2021 eitieatgithub,\n https://github.com/eitieatgit
 plt.savefig("occurance_of_characters_chunks10.pdf")
 plt.show()
 
+## ## write results to file
+## write raw results as dictionary object
+## some characters might be written / appear as unicode; e.g. "\u00d6" for O (upper case o) with two dots above it
+results_origin = name_of_datafile[:-4] ## get rid of ".txt" ending of input datafile
+with open("raw_result_"+ results_origin, "w") as converted_rawresult:
+    converted_rawresult.write(json.dumps(number_of_type_char))
 ## get runtime
 runtime =  (time.time() - start_time)
-print(" %s seconds ", runtime)
+print("runtime in seconds ", runtime)
+## write runtime
+with open("runtime_"+ results_origin, "w") as runtimefile:
+    runtimefile.write(str(runtime)+"\n")
 
 print("\n", )
