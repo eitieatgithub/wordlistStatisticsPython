@@ -32,19 +32,31 @@ note:         Some characters may not be interpreted and / or misinterpreted and
 """
 
 """
-MILESTONE: Make program parallel
+MILESTONE:    version 2.0: Program works parallel (on many cores /tasks / threads)
 Find a way to analyze chunks parallel on many threads / cores. Program work is almost only count characters, until it comes to adding 
 the counted characters of the different chunks - until then no result is needed from the previous operation. In general the result of 
 operation "before" (count chunk n-1) is not needed to work on current operation (count chunk n), and to work on chunk n+1 results of 
 chunk n are not needed and so on ...
 Assumption: Parallelized program should perform almost linear with core count. At first glance, only input bandwidth from mass storage 
 (HDD, SSD) may limit the performance gain from parallelization. Therefore version 3.0 should take care of memory management.
+
+"""
+
+"""
+HINT:       Parallelization is executed with multiprocessing. This means:
+                - (Nearly) Perfectly parallel: Tasks can be run independently
+                - Shared memory parallelism: Processes share global address space
+                - Message passing: Processes can share messages if needed
+             
+            Look at https://www.sitepoint.com/python-multiprocessing-parallel-programming/
+
 """
 
 import matplotlib.pyplot as plt
 import collections
 import time
 import json
+
 
 ## ## Definitions
 
