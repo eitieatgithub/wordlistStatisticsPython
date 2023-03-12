@@ -38,7 +38,7 @@ the counted characters of the different chunks - until then no result is needed 
 operation "before" (count chunk n-1) is not needed to work on current operation (count chunk n), and to work on chunk n+1 results of 
 chunk n are not needed and so on ...
 Assumption: Parallelized program should perform almost linear with core count. At first glance, only input bandwidth from mass storage 
-(HDD, SSD) may limit the performance gain from parallelization.
+(HDD, SSD) may limit the performance gain from parallelization. Therefore version 3.0 should take care of memory management.
 """
 
 import matplotlib.pyplot as plt
